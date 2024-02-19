@@ -1,16 +1,36 @@
-import { /*execSync,*/ spawn } from 'node:child_process'
-import { ipcMain } from 'electron'
-// import { EDemoSync } from '../enums'
-// import WebSocket from 'ws'
+/* eslint-disable prettier/prettier */
+import { spawn } from 'node:child_process';
+import { ipcMain } from 'electron';
 
 export function initializeDemo(): void {
-  console.log('initialized demo')
-  // execSync('python3 src/server/demo_pc.py')
-  spawn('python3', ['src/server/demo_pc.py'])
-  // const ws = new WebSocket('ws://localhost:65432')
+  console.log('Initialized demo');
 
-  // ws.on('data', )
-  // py.stdout.on('data', console.log)
-  ipcMain.handle('init', () => true)
-  ipcMain.handle('upload', () => 'testing')
+  // General handler for Python function execution
+  ipcMain.handle('execute-python', async (event, functionName, ...args) => {
+    console.log(`Executing Python function: ${functionName} with args: ${args}`);
+    const pythonArgs = ['src/server/demo_pc.py', functionName, ...args];
+    const pythonProcess = spawn('python', pythonArgs);
+
+    let data = '';
+    for await (const chunk of pythonProcess.stdout) {
+      data += chunk;
+    }
+
+    let error = '';
+    for await (const chunk of pythonProcess.stderr) {
+      error += chunk;
+    }
+
+    const exitCode = await new Promise((resolve) => {
+      pythonProcess.on('close', resolve);
+    });
+
+    if (exitCode) {
+      throw new Error(`Subprocess terminated with exit code ${exitCode}, stderr: ${error}`);
+    }
+
+    return data;
+  });
+
+  // Specific handlers can be set up similarly if needed for specialized logic
 }

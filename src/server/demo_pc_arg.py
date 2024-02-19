@@ -23,10 +23,12 @@ TEST = 7
 RESPONSE_SIZE = 256 * 256
 
 class RamonBE:
+
     def __init__(self, host, port):
         self.counter = 0
         self.requests_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.responses_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Connect to the server
         self.requests_socket.connect((host, port + 1))
         self.responses_socket.connect((host, port))
 
@@ -91,12 +93,6 @@ class RamonBE:
         print(json_data)
         return json_data
 
-    def get_files_status(self):
-        message = self.pack(GET_FILES_STATUS)
-        self.send_all(message)
-        data = self.receive_all()
-        json_data = self.string_in_big_buffer_to_json(data)
-        return json_data
     def stop(self):
         message = self.pack(STOP_ALL)
         self.send_all(message)
@@ -130,24 +126,18 @@ class RamonBE:
         self.send_all(message)
         return "Format successful"
 
+    # Define other methods as needed
+
 if __name__ == '__main__':
     print(f"Arguments received: {sys.argv}")  # Debugging line
     demo_instance = RamonBE(HOST, PORT)
     function_name = sys.argv[1] if len(sys.argv) > 1 else ''
+    args = sys.argv[2:]
 
-    # Adjusted execution to handle functions without arguments
+    # Dynamically call the method based on the function_name
     if hasattr(demo_instance, function_name):
         method = getattr(demo_instance, function_name)
-        if callable(method):
-            # Check if the method expects arguments
-            if len(sys.argv) > 2:
-                args = sys.argv[2:]
-                result = method(*args)
-            else:
-                result = method()
-            if result is not None:
-                print(result)
-        else:
-            print(f"{function_name} is not callable")
+        result = method(*args) if args else method()
+        print(result)  # Ensure the result is printed to stdout to be captured by Node.js
     else:
         print(f"No such method: {function_name}")

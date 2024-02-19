@@ -4,7 +4,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 export const api = {
   onInit: (): Promise<boolean> => ipcRenderer.invoke('init'),
-  onUpload: (fileName: string): Promise<unknown> => ipcRenderer.invoke('upload', fileName)
+  onUpload: (fileName: string): Promise<unknown> => ipcRenderer.invoke('upload', fileName),
+  executePython: (functionName, ...args): Promise<unknown> =>
+    ipcRenderer.invoke('execute-python', functionName, ...args)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -14,6 +16,7 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    // contextBridge.exposeInMainWorld('executePython', executePython)
   } catch (error) {
     console.error(error)
   }

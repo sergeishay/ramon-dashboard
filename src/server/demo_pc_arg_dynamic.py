@@ -24,13 +24,18 @@ RESPONSE_SIZE = 256 * 256
 
 class RamonBE:
     def __init__(self, host, port):
+        self.host = host
+        self.port = port
         self.counter = 0
+        self.setup_connections()
+
+    def setup_connections(self):
         self.requests_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.responses_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.requests_socket.connect((host, port + 1))
-        self.responses_socket.connect((host, port))
+        self.requests_socket.connect((self.host, self.port + 1))
+        self.responses_socket.connect((self.host, self.port))
 
-    def __del__(self):
+    def close_connections(self):
         self.requests_socket.close()
         self.responses_socket.close()
 
@@ -83,68 +88,37 @@ class RamonBE:
         parsed_json = json.loads(json_str)
         return parsed_json
 
+    # Example method implementations
     def get_device_status(self):
+        self.setup_connections()
         message = self.pack(GET_DEVICE_STATUS)
         self.send_all(message)
         data = self.receive_all()
         json_data = self.string_in_big_buffer_to_json(data)
+        self.close_connections()
         print(json_data)
         return json_data
 
     def get_files_status(self):
+        self.setup_connections()
         message = self.pack(GET_FILES_STATUS)
         self.send_all(message)
         data = self.receive_all()
         json_data = self.string_in_big_buffer_to_json(data)
-        return json_data
-    def stop(self):
-        message = self.pack(STOP_ALL)
-        self.send_all(message)
-        data = self.receive_all()
-        return
-
-    def get_files_status(self):
-        message = self.pack(GET_FILES_STATUS)
-        self.send_all(message)
-        data = self.receive_all()
-        json_data = self.string_in_big_buffer_to_json(data)
+        self.close_connections()
         return json_data
 
-    def upload_file_to_stream(self, file_name):
-        message = self.pack(UPLOAD_FILE_TO_STREAM, file_name)
-        self.send_all(message)
-        return "Upload successful for " + file_name
-
-    def download_file_from_stream(self, stream_name):
-        message = self.pack(DOWNLOAD_FILE_FROM_STREAM, stream_name)
-        self.send_all(message)
-        return "Download successful for " + stream_name
-
-    def delete_stream(self, stream_name):
-        message = self.pack(DELETE_STREAM, stream_name)
-        self.send_all(message)
-        return "Delete successful for " + stream_name
-
-    def format(self):
-        message = self.pack(FORMAT)
-        self.send_all(message)
-        return "Format successful"
+    # Add other methods as needed
 
 if __name__ == '__main__':
-    print(f"Arguments received: {sys.argv}")  # Debugging line
     demo_instance = RamonBE(HOST, PORT)
     function_name = sys.argv[1] if len(sys.argv) > 1 else ''
 
-    # Adjusted execution to handle functions without arguments
     if hasattr(demo_instance, function_name):
         method = getattr(demo_instance, function_name)
         if callable(method):
-            # Check if the method expects arguments
-            if len(sys.argv) > 2:
-                args = sys.argv[2:]
-                result = method(*args)
-            else:
-                result = method()
+            args = sys.argv[2:]
+            result = method(*args) if args else method()
             if result is not None:
                 print(result)
         else:
