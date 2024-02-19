@@ -1,0 +1,8 @@
+# ninja log v5
+6	310	7300320543832739	CMakeFiles/storagedemo.dir/fifo.c.obj	80e42f49c3b2bed0
+36	482	7300320545657860	CMakeFiles/storagedemo.dir/sockets.c.obj	ddd8ceb1dab99a21
+44	494	7300320545789833	CMakeFiles/storagedemo.dir/storage.c.obj	b6d6835fed9edc91
+14	565	7300320546502323	CMakeFiles/storagedemo.dir/json/json-maker.c.obj	c41f572d71a52816
+29	587	7300320546629182	CMakeFiles/storagedemo.dir/main.c.obj	8ed0c1f6fc723390
+22	660	7300320547561555	CMakeFiles/storagedemo.dir/json/lwjson.c.obj	20c22e94d80e3901
+662	1372	7300320554592030	storagedemo.exe	b28b3458a74fe999

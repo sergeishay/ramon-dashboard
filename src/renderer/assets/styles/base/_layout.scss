@@ -1,0 +1,16 @@
+body {
+  display: grid;
+  overflow: hidden;
+  background-image: url('../icons/wavy-lines.svg');
+  background-size: cover;
+  background-position: center center;
+  user-select: none;
+}
+
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 80px;
+}

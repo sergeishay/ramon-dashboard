@@ -1,0 +1,92 @@
+{
+  "device": {
+    "used_size": 16.33,
+    "total_read_perf": 11.1,
+    "total_write_perf": 12.3,
+    "terminal": [
+      "upload_file S01E02_The_Kingsroad.mkv started.",
+      "upload_file S01E02_The_Kingsroad.mkv done.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv started.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv done.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv started.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv done.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv started.",
+      "upload_file S01E04_Cripples_Bastards_and_Broken_Things.mkv done.",
+      "download_file S01E04_Cripples_Bastards_and_Broken_Things.mkv started.",
+      "download_file S01E04_Cripples_Bastards_and_Broken_Things.mkv done.",
+      "get_device_status done."
+    ]
+  },
+  "streams": {
+    "S01E02_The_Kingsroad.mkv": {
+      "ID": 0,
+      "state": "closed",
+      "size": 1.52,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E04_Cripples_Bastards_and_Broken_Things.mkv (2)": {
+      "ID": 1,
+      "state": "closed",
+      "size": 1.76,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E04_Cripples_Bastards_and_Broken_Things.mkv (3)": {
+      "ID": 2,
+      "state": "closed",
+      "size": 1.76,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E04_Cripples_Bastards_and_Broken_Things.mkv (4)": {
+      "ID": 3,
+      "state": "closed",
+      "size": 1.76,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E03_Lord_Snow.mkv": {
+      "ID": 17,
+      "state": "closed",
+      "size": 1.55,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E04_Cripples_Bastards_and_Broken_Things.mkv": {
+      "ID": 18,
+      "state": "closed",
+      "size": 1.76,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E03_Lord_Snow.mkv (2)": {
+      "ID": 20,
+      "state": "closed",
+      "size": 1.55,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S01E06_A_Golden_Crown.mkv": {
+      "ID": 100,
+      "state": "closed",
+      "size": 1.55,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S02E02_The_Night_Lands.mkv": {
+      "ID": 170,
+      "state": "closed",
+      "size": 1.44,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    },
+    "S02E04_Garden_of_Bones.mkv": {
+      "ID": 178,
+      "state": "closed",
+      "size": 1.68,
+      "read_perf": 0.0,
+      "write_perf": 0.0
+    }
+  }
+}
