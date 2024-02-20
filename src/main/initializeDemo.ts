@@ -5,12 +5,11 @@ import { ipcMain } from 'electron';
 export function initializeDemo(): void {
   console.log('Initialized demo');
 
-  // General handler for Python function execution
   ipcMain.handle('execute-python', async (event, functionName, ...args) => {
     console.log(`Executing Python function: ${functionName} with args: ${args}`);
     const pythonArgs = ['src/server/demo_pc.py', functionName, ...args];
     const pythonProcess = spawn('python', pythonArgs);
-
+    console.log(event)
     let data = '';
     for await (const chunk of pythonProcess.stdout) {
       data += chunk;
@@ -32,5 +31,4 @@ export function initializeDemo(): void {
     return data;
   });
 
-  // Specific handlers can be set up similarly if needed for specialized logic
 }

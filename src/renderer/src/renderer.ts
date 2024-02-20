@@ -38,7 +38,8 @@ function doAThing(): void {
     try {
       // const response = await window.api.executePython('get_device_status')
       const response = await window.api.executePython('get_device_status')
-      console.log(response)
+      const resParsed = response?.toString()
+      console.log(resParsed)
     } catch (e) {
       console.error(e)
     }
