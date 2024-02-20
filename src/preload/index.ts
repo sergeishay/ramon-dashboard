@@ -16,6 +16,9 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('pythonAPI', {
+      executeCommand: (command, args) => ipcRenderer.invoke('execute-python', { command, args })
+    })
     // contextBridge.exposeInMainWorld('executePython', executePython)
   } catch (error) {
     console.error(error)

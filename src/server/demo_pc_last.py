@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/bin/python
 
 import socket
 import struct
 import json
-import sys
 import time
+import sys
+
 # Server IP address and port
 HOST = socket.gethostbyname('localhost')  # For test on PC
 PORT = 65432  # Replace with your chosen port
@@ -26,12 +27,8 @@ class RamonBE:
         self.counter = 0
         self.requests_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.responses_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        try:
-            self.requests_socket.connect((host, port + 1))
-            self.responses_socket.connect((host, port))
-        except Exception as e:
-            print(f"Connection Error: {e}")
-            sys.exit(1)
+        self.requests_socket.connect((host, port + 1))
+        self.responses_socket.connect((host, port))
 
     def __del__(self):
         self.requests_socket.close()
@@ -134,27 +131,23 @@ class RamonBE:
         return "Format successful"
 
 if __name__ == '__main__':
-    inst = RamonBE(HOST, PORT)
-    print("Python service started. Ready to receive commands.")
-    sys.stdout.flush()
+    print(f"Arguments received: {sys.argv}")  # Debugging line
+    demo_instance = RamonBE(HOST, PORT)
+    function_name = sys.argv[1] if len(sys.argv) > 1 else ''
 
-    while True:
-        line = sys.stdin.readline()
-        if not line:
-            break  # Exit if stdin is closed
-        try:
-            data = json.loads(line.strip())
-            command = data.get('command')
-            args = data.get('args', [])
-            
-            if hasattr(inst, command) and callable(getattr(inst, command)):
-                method = getattr(inst, command)
-                result = method(*args) if args else method()
+    # Adjusted execution to handle functions without arguments
+    if hasattr(demo_instance, function_name):
+        method = getattr(demo_instance, function_name)
+        if callable(method):
+            # Check if the method expects arguments
+            if len(sys.argv) > 2:
+                args = sys.argv[2:]
+                result = method(*args)
             else:
-                result = {"error": "Unknown command"}
-
-            print(json.dumps(result))  # Send the command result back to Electron
-            sys.stdout.flush()
-        except Exception as e:
-            print(json.dumps({"error": str(e)}))
-            sys.stdout.flush()
+                result = method()
+            if result is not None:
+                print(result)
+        else:
+            print(f"{function_name} is not callable")
+    else:
+        print(f"No such method: {function_name}")
